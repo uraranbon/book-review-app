@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+.error-message {
+  color: #ff3333;
+}
+
+.signup input {
+  max-width: 300px;
+  padding: 4px;
+  margin-left: 20px;
+}
+
+.signup .signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.signup .wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.button {
+  width: 200px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.compressed-image {
+  width: 100%;
+  text-align: center;
+}

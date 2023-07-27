@@ -3,11 +3,14 @@ import { url } from "../const";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import "./BookReviewList.css";
+import Pagination from "./Pagination";
 
 const BookReviewList = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 10;
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -20,7 +23,8 @@ const BookReviewList = () => {
       try {
         const responseToken = await axios.post(`${url}/users`, userData);
         const token = responseToken.data.token;
-        const responseBook = await axios.get(`${url}/books`, {
+        const offset = (currentPage - 1) * reviewsPerPage;
+        const responseBook = await axios.get(`${url}/books?offset=${offset}`, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
@@ -35,15 +39,7 @@ const BookReviewList = () => {
     };
 
     fetchReviews();
-  }, dispatch);
-
-  const goToPrevPage = () => {
-
-  };
-
-  const goToNextPage = () => {
-
-  };
+  }, [currentPage, dispatch]);
 
   return (
     <div className="book-review">
@@ -67,12 +63,11 @@ const BookReviewList = () => {
               </li>
             ))}
           </ul>
-          <button onClick={goToPrevPage}>
-            前へ
-          </button>
-          <button onClick={goToNextPage}>
-            次へ
-          </button>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            hasMore={reviews.length === reviewsPerPage}
+          />
         </>
       )}
     </div>

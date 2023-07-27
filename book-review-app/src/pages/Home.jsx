@@ -1,9 +1,12 @@
+import BookReviewList from "../components/BookReviewList";
+
 export const Home = () => {
   return (
-    <div>
-      <main className="home">
-        <p>Home</p>
-      </main>
-    </div>
+    <main className="home">
+      <div className="inner">
+        <h1>書籍レビュー一覧</h1>
+        <BookReviewList />
+      </div>
+    </main>
   );
 };

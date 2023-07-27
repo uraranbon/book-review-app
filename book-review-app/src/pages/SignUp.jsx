@@ -91,7 +91,7 @@ export const SignUp = () => {
     <div>
       <main className="signup">
         <div className="inner">
-          <h2>サインアップ</h2>
+          <h1>サインアップ</h1>
           <p className="error-message">{errorMessage}</p>
           <form className="signup-form">
             <div className="wrap">

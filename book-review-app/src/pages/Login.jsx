@@ -52,7 +52,7 @@ export const Login = () => {
     <div>
       <main className="login">
         <div className="inner">
-          <h2>ログイン</h2>
+          <h1>ログイン</h1>
           <p className="error-message">{errorMessage}</p>
           <form className="login-form">
             <div className="wrap">

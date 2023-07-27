@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, Navigate } from "react-router-dom";
 import { url } from "../const";
 import axios from "axios";
 import "./Login.css";
+import { SignUp } from "./SignUp";
 
 export const Login = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState();
@@ -25,7 +28,9 @@ export const Login = () => {
         });
         console.log(response);
         if (response.status === 200) {
-          setErrorMessage("ログインできました");
+          setErrorMessage("");
+          alert("ログインできました");
+          navigate("/");
         } else {
           throw new Error("ログインに失敗しました");
         }
@@ -35,6 +40,8 @@ export const Login = () => {
     }
   };
 
+
+  //utility
   const isValidEmail = (value) => {
     // メールアドレスのバリデーションチェック
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

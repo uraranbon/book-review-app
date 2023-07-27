@@ -11,8 +11,8 @@ export const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [iconUrl, setIconUrl] = useState(null);
-  const [errorMessage, setErrorMessage] = useState();
+  const [iconFile, setIconFile] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handleNameChange = (e) => setName(e.target.value);
@@ -26,7 +26,7 @@ export const SignUp = () => {
         maxWidth: 300,
         maxHeight: 300,
         success: (result) => {
-          setIconUrl(result);
+          setIconFile(result);
         },
         error: (error) => {
           console.error(error.message);
@@ -35,27 +35,49 @@ export const SignUp = () => {
     }
   };
 
-  const handleSubmit = () => {
-    const data = {
+  const handleSubmit = async () => {
+    if (!email || !password || !name) {
+      setErrorMessage("フォームは全て入力してください");
+      return;
+    } else if (!isValidEmail(email)) {
+      setErrorMessage("正しいメールアドレスを入力してください");
+      return;
+    } else if (!iconFile) {
+      setErrorMessage("アイコンを登録してください");
+      return;
+    }
+
+    const userData = {
       name: name,
       email: email,
       password: password,
-      iconUrl: iconUrl,
     };
-    if (!email || !password || !name || !iconUrl) {
-      setErrorMessage("フォームは全て入力してください");
-    } else if (!isValidEmail(email)) {
-      setErrorMessage("正しいメールアドレスを入力してください");
-    } else {
-      axios
-        .post(`${url}/users`, data)
-        .then((response) => {
-          alert("サインアップできました");
-          navigate("/");
-        })
-        .catch((error) => {
-          setErrorMessage(`サインアップに失敗しました。 ${error}`);
-        });
+
+    try {
+      const response = await axios.post(`${url}/users`, userData);
+      // ユーザー登録後に返ってきたトークンを取得
+      const token = response.data.token;
+
+      if (!token) {
+        setErrorMessage("認証トークンがありません");
+        return;
+      }
+
+      // 画像アップロードのリクエスト
+      const iconFormData = new FormData();
+      iconFormData.append("icon", iconFile);
+      await axios.post(`${url}/uploads`, iconFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // アップロードが成功した場合、アイコンURLを設定
+      alert("サインアップに成功しました");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(`サインアップに失敗しました。 ${error}`);
     }
   };
 
@@ -119,11 +141,11 @@ export const SignUp = () => {
                 onChange={handleIconChange}
               />
             </div>
-            {iconUrl && (
+            {iconFile && (
               <div className="compressed-image">
                 <p>圧縮されました</p>
                 <img
-                  src={URL.createObjectURL(iconUrl)}
+                  src={URL.createObjectURL(iconFile)}
                   alt="圧縮後"
                   width="300"
                 />

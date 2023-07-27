@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { url } from "../const";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setReviews } from "../redux/actions";
-import Pagination from "./Pagination";
+import { useDispatch } from "react-redux";
 import "./BookReviewList.css";
 
 const BookReviewList = () => {

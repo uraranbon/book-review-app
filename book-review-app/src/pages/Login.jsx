@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import { Routes, Route, Link, useNavigate, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { url } from "../const";
 import axios from "axios";
 import "./Login.css";
-import { SignUp } from "./SignUp";
 
 export const Login = () => {
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      navigate('/');
+    }
+  });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +36,11 @@ export const Login = () => {
         console.log(response);
         if (response.status === 200) {
           setErrorMessage("");
-          alert("ログインできました");
+
+          //ローカルストレージに認証トークンを保存
+          const token = response.data.token;
+          localStorage.setItem("authToken", token);
+
           navigate("/");
         } else {
           throw new Error("ログインに失敗しました");

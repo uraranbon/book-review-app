@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { url } from "../const";
 import axios from "axios";
 import Compressor from "compressorjs";
@@ -7,6 +7,13 @@ import "./SignUp.css";
 
 export const SignUp = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      navigate('/');
+    }
+  });
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -72,8 +79,10 @@ export const SignUp = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // アップロードが成功した場合、アイコンURLを設定
-      alert("サインアップに成功しました");
+
+      //ローカルストレージに認証トークンを保存
+      localStorage.setItem("authToken", token);
+
       navigate("/");
     } catch (error) {
       console.error(error);

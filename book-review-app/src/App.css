@@ -42,10 +42,6 @@ h2 {
   margin-top: 0;
 }
 
-main {
-  padding: 50px 0;
-}
-
 .inner {
   min-width: 280px;
   width: calc(100% - 60px);

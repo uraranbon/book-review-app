@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../const";
+import "./BookReviewListHeader.css";
 
 const BookReviewListHeader = () => {
   const [userName, setUserName] = useState("");
@@ -33,9 +34,12 @@ const BookReviewListHeader = () => {
   return (
     <header>
       {userName ? (
+        <>
         <p>ようこそ、{userName}さん</p>
+        <Link to="/profile">ユーザー名を変更する</Link>
+        </>
       ) : (
-        <Link to="/login">ログイン</Link>
+        <Link to="/login">ログインはこちら</Link>
       )}
     </header>
   );

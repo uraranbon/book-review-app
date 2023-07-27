@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { url } from "../const";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import "./BookReviewList.css";
 import Pagination from "./Pagination";
 
@@ -13,21 +14,16 @@ const BookReviewList = () => {
   const reviewsPerPage = 10;
 
   useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+
     const fetchReviews = async () => {
-      const userData = {
-        name: "cat",
-        email: "cat@cat.com",
-        password: "cat",
-      };
 
       try {
-        const responseToken = await axios.post(`${url}/users`, userData);
-        const token = responseToken.data.token;
         const offset = (currentPage - 1) * reviewsPerPage;
         const responseBook = await axios.get(`${url}/books?offset=${offset}`, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${authToken}`,
           },
         });
         setReviews(responseBook.data);
@@ -52,7 +48,7 @@ const BookReviewList = () => {
               <li key={review.id} className="book-review-list__item">
                 <h2 className="book-review-list__title">{review.title}</h2>
                 <p className="book-review-list__info">ID：{review.id}</p>
-                <p className="book-review-list__info">URL：{review.url}</p>
+                <p className="book-review-list__info">URL：<Link to={review.url}>{review.url}</Link></p>
                 <p className="book-review-list__info">詳細：{review.detail}</p>
                 <p className="book-review-list__info">
                   レビュー：{review.review}

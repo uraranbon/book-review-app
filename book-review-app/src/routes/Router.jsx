@@ -5,6 +5,9 @@ import { NotFound } from "../pages/NotFound";
 import { Login } from "../pages/Login";
 import { SignUp } from "../pages/SignUp";
 import { Profile } from "../pages/Profile";
+import { New } from "../pages/New";
+import { Detail } from "../pages/Detail";
+import { Edit } from "../pages/Edit";
 
 export const Router = () => {
   return (
@@ -14,7 +17,10 @@ export const Router = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route element={NotFound} />
+        <Route path="/new" element={<New />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/edit/:id" element={<Edit />} />
+        <Route element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

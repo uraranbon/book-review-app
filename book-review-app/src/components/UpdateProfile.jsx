@@ -42,7 +42,7 @@ const UpdateProfile = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>ロード中</p>;
   }
 
   const handleChange = (e) => {

@@ -61,6 +61,7 @@ export const Login = () => {
 
   return (
     <div>
+      <header><p className="">書籍レビューアプリ</p></header>
       <main className="login">
         <div className="inner">
           <h1>ログイン</h1>
@@ -100,7 +101,7 @@ export const Login = () => {
               ログイン
             </button>
           </form>
-          <Link to="/signup">サインアップはこちら</Link>
+          <Link to="/signup" className="button">サインアップはこちら</Link>
         </div>
       </main>
     </div>

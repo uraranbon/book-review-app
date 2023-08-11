@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { url } from "../const";
 import "./BookReviewListHeader.css";
 
 const BookReviewListHeader = () => {
+  const navigate = useNavigate();
   const [userName, setUserName] = useState("");
+
+  const handleLogout = () => {
+    //ローカルストレージ保存された認証トークンを削除
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
+
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken"); // 認証トークンをローカルストレージから取得
@@ -37,6 +46,7 @@ const BookReviewListHeader = () => {
         <>
         <p>ようこそ、{userName}さん</p>
         <Link to="/profile">ユーザー名を変更する</Link>
+        <button onClick={handleLogout}>ログアウトする</button>
         </>
       ) : (
         <Link to="/login">ログインはこちら</Link>

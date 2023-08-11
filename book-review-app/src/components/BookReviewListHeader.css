@@ -1,4 +1,3 @@
-
 header {
   background-color: #90a3cb;
   position: fixed;
@@ -10,9 +9,16 @@ header {
   justify-content: center;
   gap: 20px;
   width: 100%;
+  z-index: 9;
 }
 
 header > * {
   color: #fff;
   margin: 0;
+  font-size: 14px;
+}
+
+header a:hover,
+header button:hover {
+  text-decoration: none;
 }

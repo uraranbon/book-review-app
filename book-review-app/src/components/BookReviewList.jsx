@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { url } from "../const";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./BookReviewList.css";
 import Pagination from "./Pagination";
 
 const BookReviewList = () => {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,10 +17,9 @@ const BookReviewList = () => {
     const authToken = localStorage.getItem("authToken");
     const fetchReviews = async () => {
       try {
-        const offset = (currentPage - 1) * reviewsPerPage;
+        const offset = (currentPage - 1) * reviewsPerPage; //データのオフセットは0から始まる
         const responseBook = await axios.get(`${url}/books?offset=${offset}`, {
           headers: {
-            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authToken}`,
           },
         });
@@ -34,12 +31,11 @@ const BookReviewList = () => {
       }
     };
     fetchReviews();
-  }, [currentPage, dispatch]);
+  }, [currentPage]); //この値が変更されたときだけuseEffect内のコードが実行される
 
-  //ログを送信
+  //ログを送信・詳細画面用（10）
   const handleSelectBook = async (bookId) => {
     const authToken = localStorage.getItem("authToken");
-
     try {
       await axios.post(
         `${url}/logs`,
@@ -95,6 +91,7 @@ const BookReviewList = () => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             hasMore={reviews.length === reviewsPerPage}
+            //現在表示されているレビューの数が、1ページあたりの表示数と同じならtrue
           />
         </>
       )}

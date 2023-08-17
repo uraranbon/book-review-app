@@ -21,14 +21,14 @@ const Pagination = ({ currentPage, setCurrentPage, hasMore }) => {
     <div className="pagination">
       <button
         onClick={handlePrevPage}
-        disabled={currentPage === 1}
+        disabled={currentPage === 1} //disabled属性（最初のページ）
         className="pagination__button"
       >
         前のページ
       </button>
       <button
         onClick={handleNextPage}
-        disabled={!hasMore}
+        disabled={!hasMore} //disabled属性
         className="pagination__button"
       >
         次のページ
